@@ -22,6 +22,16 @@ public class RobotPart : MonoBehaviour
 		}
 	}
 
+	public void Translate(Vector3 translation)
+{
+		Vector3 point = transform.localPosition;
+		transform.Translate(translation);
+		foreach (var partchild in _children) 
+		{
+			partchild.transform.Translate(translation);
+		}
+	}
+
 
 	// Start is called before the first frame update
 	void Start()
