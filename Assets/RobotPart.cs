@@ -16,7 +16,8 @@ public class RobotPart : MonoBehaviour
 		Vector3 zAxis = transform.TransformDirection(new Vector3(0, 0, 1));
 		Vector3 point = transform.localPosition;
 		transform.RotateAround(point, zAxis, angle);
-		foreach (var partchild in _children) 
+
+        foreach (var partchild in _children) 
 		{
 			partchild.transform.RotateAround(point, zAxis, angle);
 		}
