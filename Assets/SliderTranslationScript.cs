@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class SliderScript : MonoBehaviour
+public class SliderTranslationScript : MonoBehaviour
 {
     [SerializeField] private Slider _slider;
 
@@ -13,17 +13,17 @@ public class SliderScript : MonoBehaviour
 
     [SerializeField] private RobotPart robotPart;
 
-    public float angle;
-    // Le slider va modifier l'angle de rotation du robot
+    public float translation;
+    // Le slider va modifier  de translation du robot
     // Start is called before the first frame update
     void Start()
     {
 
         _sliderText.text = (gameObject.name);
-        _slider.onValueChanged.AddListener((v) =>{
+        _slider.onValueChanged.AddListener((v) => {
             _sliderText.text = v.ToString(gameObject.name + "0.00");
-            robotPart.Rotate((v - angle) * 10f);
-            angle = v;
+            robotPart.Translate(new Vector3(0, 0, v-translation));
+            translation = v;
         }
         );
 

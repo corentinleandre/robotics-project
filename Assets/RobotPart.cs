@@ -26,7 +26,8 @@ public class RobotPart : MonoBehaviour
 	public void Translate(Vector3 translation)
 {
 		Vector3 point = transform.localPosition;
-		transform.Translate(translation);
+        transform.Translate(translation);
+
 		foreach (var partchild in _children) 
 		{
 			partchild.transform.Translate(translation);
