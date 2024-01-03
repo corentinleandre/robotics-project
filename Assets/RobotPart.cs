@@ -23,20 +23,42 @@ public class RobotPart : MonoBehaviour
 		}
 	}
 
-	public void Translate(Vector3 translation)
-{
-		Vector3 point = transform.localPosition;
+    public void Translate(Vector3 translation)
+    {
+        // Prend en compte la translation le long de l'axe Z
+        Vector3 point = transform.localPosition + translation;
         transform.Translate(translation);
 
-		foreach (var partchild in _children) 
-		{
-			partchild.transform.Translate(translation);
-		}
-	}
+        foreach (var partchild in _children)
+        {
+            partchild.transform.Translate(translation);
+        }
+
+        // Appelle la méthode pour ajuster les autres rotoides
+        AdjustRotoidesForTranslation(translation);
+    }
+    private void AdjustRotoidesForTranslation(Vector3 translation)
+    {
+        foreach (var partchild in _children)
+        {
+            // Ajuste la rotation pour maintenir la translation rectiligne
+            Vector3 zAxis = partchild.transform.TransformDirection(Vector3.forward);
+            partchild.transform.RotateAround(partchild.transform.position, zAxis, translation.z);
+        }
+    }
+
+    public void TranslatePrismAlongZ(float distance)
+    {
+        // Créez un vecteur de translation le long de l'axe Z
+        Vector3 translation = new Vector3(0f, 0f, distance);
+
+        // Appliquez la translation à la partie actuelle (prisme)
+        Translate(translation);
+    }
 
 
-	// Start is called before the first frame update
-	void Start()
+    // Start is called before the first frame update
+    void Start()
 	{
 		RobotPart currChild = this;
 		while (currChild.GetComponent<RobotPart>().child != null)

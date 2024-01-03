@@ -24,6 +24,7 @@ public class SliderScript : MonoBehaviour
             _sliderText.text = v.ToString(gameObject.name + "0.00");
             robotPart.Rotate((v - angle) * 10f);
             angle = v;
+
         }
         );
 
