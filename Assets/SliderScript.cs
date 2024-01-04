@@ -22,7 +22,7 @@ public class SliderScript : MonoBehaviour
         _sliderText.text = (gameObject.name);
         _slider.onValueChanged.AddListener((v) =>{
             _sliderText.text = v.ToString(gameObject.name + "0.00");
-            robotPart.Rotate((v - angle) * 10f);
+            robotPart.Rotate((v - angle));
             angle = v;
 
         }

@@ -24,7 +24,7 @@ public class SliderTranslationScript : MonoBehaviour
         _sliderText.text = (gameObject.name);
         _slider.onValueChanged.AddListener((v) => {
             _sliderText.text = v.ToString(gameObject.name + "0.00");
-            robotPart.Translate(new Vector3(v - translation, 0, 0));
+            robotPart.Translate(new Vector3(0, 0, v - translation));
             translation = v;
       
 
