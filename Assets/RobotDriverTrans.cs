@@ -5,7 +5,9 @@ using UnityEngine;
 public class RobotDriverTrans : MonoBehaviour
 {
     private RobotPart _drivedRobotPart;
-    public Vector3 transSpeed;
+    public float transSpeed;
+    private float _dist = 0;
+    private float _target;
 
     // Start is called before the first frame update
     void Start()
@@ -16,6 +18,23 @@ public class RobotDriverTrans : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _drivedRobotPart.Translate(transSpeed);
+        if (_target > _dist)
+        {
+            float currentTranslation = Mathf.Min(transSpeed, _target - _dist);
+            _drivedRobotPart.TranslatePrismAlongZ(currentTranslation);
+            _dist += currentTranslation;
+        }
+
+        if (_target < _dist)
+        {
+            float currentTranslation = Mathf.Max(-transSpeed, _target-_dist);
+            _drivedRobotPart.TranslatePrismAlongZ(currentTranslation);
+            _dist += currentTranslation;
+        } 
+    }
+
+    public void SetTarget(float newTarget)
+    {
+        _target = newTarget;
     }
 }

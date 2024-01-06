@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Collections;
-using UnityEngine;
 using System.Runtime.CompilerServices;
 
 public class ButtonLine : MonoBehaviour

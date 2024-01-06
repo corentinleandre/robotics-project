@@ -11,9 +11,10 @@ public class SliderScript : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI _sliderText;
 
-    [SerializeField] private RobotPart robotPart;
-
+    //[SerializeField] private RobotPart robotPart;
     public float angle;
+    [SerializeField] private RobotDriver _robotDriver;
+    
     // Le slider va modifier l'angle de rotation du robot
     // Start is called before the first frame update
     void Start()
@@ -22,9 +23,9 @@ public class SliderScript : MonoBehaviour
         _sliderText.text = (gameObject.name);
         _slider.onValueChanged.AddListener((v) =>{
             _sliderText.text = v.ToString(gameObject.name + "0.00");
-            robotPart.Rotate((v - angle));
-            angle = v;
-
+            /*robotPart.Rotate((v - angle));
+            angle = v; */
+            _robotDriver.SetTarget(v);
         }
         );
 
@@ -35,6 +36,6 @@ public class SliderScript : MonoBehaviour
     void Update()
     {
 
-        // on récupère le valeur du slider pour détecter si on recule ou on avance dans le slider
+        // on rÃ©cupÃ¨re le valeur du slider pour dÃ©tecter si on recule ou on avance dans le slider
     }
 }
