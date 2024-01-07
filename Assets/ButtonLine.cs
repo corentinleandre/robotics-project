@@ -19,7 +19,7 @@ public class ButtonLine : MonoBehaviour
 
     public void OnButtonClick()
     {
-        if (orderLine%2 ==0)
+        if (orderLine % 2 == 0)
         {
             StartCoroutine(RotateOverTime());
             orderLine++;
@@ -35,23 +35,23 @@ public class ButtonLine : MonoBehaviour
         float elapsedTime = 0f;
         float targetAngle = 45f;
         float totalRotationTime = 1.0f;
-        float angularSpeed = targetAngle / totalRotationTime; 
+        float angularSpeed = targetAngle / totalRotationTime;
+        float targetY = robotPart.transform.position.y;
 
         while (elapsedTime < totalRotationTime)
         {
-            float targetY = 12f;
+
             float errorMargin = 0.1f;
             float angleToRotate = angularSpeed * Time.deltaTime;
 
-
-            if ((robotPart.transform.position.y - targetY) > errorMargin)
+            if ((robotPart.transform.position.y - targetY) < errorMargin)
             {
-                robotPart.Translate(new Vector3(0, 0, -transition));
+                robotPart.Translate(new Vector3(0, 0, transition));
                 yield return null;
             }
             else
             {
-                robotPart.Translate(new Vector3(0, 0, transition));
+                robotPart.Translate(new Vector3(0, 0, -transition));
                 yield return null;
 
             }
@@ -60,16 +60,18 @@ public class ButtonLine : MonoBehaviour
             yield return null;
         }
     }
-    private IEnumerator AntiRotateOverTime()
+
+
+private IEnumerator AntiRotateOverTime()
     {
         float elapsedTime = 0f;
         float targetAngle = -45f;
-        float totalRotationTime =1.0f;
+        float totalRotationTime = 1.0f;
         float angularSpeed = targetAngle / totalRotationTime;
-
+        float targetY = robotPart.transform.position.y;
         while (elapsedTime < totalRotationTime)
         {
-            float targetY = 12f;
+   
             float errorMargin = 0.1f;
             float angleToRotate = angularSpeed * Time.deltaTime;
 

@@ -4781,8 +4781,8 @@ Transform:
   m_GameObject: {fileID: 1140619579}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 0.05}
+  m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1518849154}
@@ -4899,7 +4899,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d26ca87f89360f439601cb3d4e0139d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 2
 --- !u!1 &1164952939
 GameObject:
   m_ObjectHideFlags: 0
@@ -6587,6 +6586,7 @@ GameObject:
   - component: {fileID: 1518849154}
   - component: {fileID: 1518849153}
   - component: {fileID: 1518849152}
+  - component: {fileID: 1518849155}
   m_Layer: 0
   m_Name: ZCylinder_Prism (1)
   m_TagString: Untagged
@@ -6651,6 +6651,19 @@ Transform:
   - {fileID: 1140619580}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: -89.979}
+--- !u!114 &1518849155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1518849151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96383b05460e5d84285bc18c02c75e80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!1 &1562384001
 GameObject:
   m_ObjectHideFlags: 0
