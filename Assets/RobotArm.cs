@@ -50,11 +50,20 @@ public class RobotArm : MonoBehaviour
             //Debug.Log(GameObject.Find("Example").transform.position);
             //Debug.Log(IsInFourthRange());
         }
-        one.SetTarget(GetBaseTargetAngle());
-        if (IsInFourthRange())
+
+        if (!_attained)
         {
-            four.SetTarget(GetFourthTargetAngle());
-            five.SetTarget(GetFifthDistance());
+            one.SetTarget(GetBaseTargetAngle());
+            if (IsInFourthRange())
+            {
+                four.SetTarget(GetFourthTargetAngle());
+                five.SetTarget(GetFifthDistance());
+            }
+
+            if (Vector3.Distance(_targetPoint, GetTip()) < 0.01)
+            {
+                _attained = true;
+            }
         }
     }
 
@@ -253,5 +262,15 @@ public class RobotArm : MonoBehaviour
         Quaternion rotOut;
         five.transform.GetPositionAndRotation(out posOut,out rotOut);
         return posOut + five.transform.localScale.z * five.transform.forward;
+    }
+
+    public Vector3 GetCurrentTarget()
+    {
+        return _targetPoint;
+    }
+
+    public Vector3 GetNextTarget()
+    {
+        return _nextTarget;
     }
 }
