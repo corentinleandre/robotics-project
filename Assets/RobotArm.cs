@@ -35,7 +35,7 @@ public class RobotArm : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _actionsphere = Vector3.Distance(one.transform.position, GetTip());
+        _actionsphere = Vector3.Distance(two.transform.position, GetTip());
         _minDist = Vector3.Distance(four.transform.position, GetTip());
         _maxdist = _minDist + 3;
         _oneToTwo = Vector3.Distance(one.transform.position, two.transform.position);
@@ -62,10 +62,40 @@ public class RobotArm : MonoBehaviour
         if (!_attained)
         {
             one.SetTarget(GetBaseTargetAngle());
-            if (IsInFourthRange())
+            if (isInsideFourthRange())
             {
+                //try to collide the fourth range sphere and the point
+                three.SetTarget(0);
+                two.SetTarget(two.GetAngle()-1);
+                four.SetTarget(0);
+            }else if (IsInFourthRange())
+            {
+                //Stabilize the ones we won't need anymore
+                two.SetTarget(two.GetAngle());
+                three.SetTarget(three.GetAngle());
+                //get the others in the correct position
                 four.SetTarget(GetFourthTargetAngle());
                 five.SetTarget(GetFifthDistance());
+            }else if (IsInThirdRange())
+            {
+                //Stabilize the ones we won't need anymore
+                two.SetTarget(two.GetAngle());
+                //get the others in the correct position
+                three.SetTarget(GetThirdTargetAngle());
+                four.SetTarget(GetFourthTargetAngle());
+                five.SetTarget(GetFifthDistance());
+            }else if (IsInSecondRange())
+            {
+                two.SetTarget(GetSecondTargetAngle());
+                three.SetTarget(GetThirdTargetAngle());
+                four.SetTarget(GetFourthTargetAngle());
+                five.SetTarget(GetFifthDistance());
+            } 
+            else
+            {
+                //skip if we cannot reach it
+                _attained = true;
+                SetNextTarget(_nextTarget);
             }
 
             if (Vector3.Distance(_targetPoint, GetTip()) < 0.01)
@@ -133,14 +163,63 @@ public class RobotArm : MonoBehaviour
         return 0f;
     }
 
-    public Boolean IsInThirdRange()
+    public Boolean IsInSecondRange()
     {
-        if (Vector3.Distance(one.transform.position, _targetPoint) > _actionsphere)
+        if (Vector3.Distance(two.transform.position, _targetPoint) > _actionsphere)
         {
             return false;
         }
 
-        if (Vector3.Distance(three.transform.position, _targetPoint) < _minDist+_threeToFour ||
+        if (Vector3.Distance(two.transform.position, _targetPoint) < _minDist ||
+            Vector3.Distance(two.transform.position, _targetPoint) > _maxdist+_threeToFour+_twoToThree)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public float GetSecondTargetAngle()
+    {
+        Vector3 diff = _targetPoint - two.transform.position;
+        //On le met dans le repère local
+        Vector3 diffInLocal = two.transform.InverseTransformDirection(diff);
+        //On part du principe que Z = 0, que qui sera vrai quand la première rotoide aura fini sa trajectoire
+        Vector3 diffInLocalProjected = new Vector3(diffInLocal.x, diffInLocal.y, 0f);
+        //on normalise pour aller chercher l'angle
+        Vector3 normalizedDiffInLocalProjected = diffInLocalProjected.normalized;
+        
+        //on trouve l'angle
+        float alpha1 = Mathf.Acos(normalizedDiffInLocalProjected.x) * Mathf.Rad2Deg;
+        float alpha2 = Mathf.Asin(normalizedDiffInLocalProjected.y) * Mathf.Rad2Deg;
+
+        float target;
+        //on regarde si on s'appuie sur le cos ou le sin en fonction de la situation
+        //on ajoute l'angle courant car on travaille dans le repère local
+        if (normalizedDiffInLocalProjected.y > 0)
+        {
+            target = alpha1 + two.GetAngle();
+        }else if(normalizedDiffInLocalProjected.x > 0)
+        {   
+            target = alpha2 + two.GetAngle();
+        }else
+        {
+            target = two.GetAngle() - alpha1;
+        }
+
+        return target;
+        //Debug.Log(diffInLocal);
+        //return 0f;
+    }
+    
+    public Boolean IsInThirdRange()
+    {
+        if (Vector3.Distance(two.transform.position, _targetPoint) > _actionsphere)
+        {
+            return false;
+        }
+
+        if (Vector3.Distance(three.transform.position, _targetPoint) < _minDist ||
             Vector3.Distance(three.transform.position, _targetPoint) > _maxdist+_threeToFour)
         {
             return false;
@@ -184,7 +263,7 @@ public class RobotArm : MonoBehaviour
     
     public Boolean IsInFourthRange()
     {
-        if (Vector3.Distance(one.transform.position, _targetPoint) > _actionsphere)
+        if (Vector3.Distance(two.transform.position, _targetPoint) > _actionsphere)
         {
             return false;
         }
@@ -231,6 +310,21 @@ public class RobotArm : MonoBehaviour
         return target;
         //Debug.Log(diffInLocal);
         //return 0f;
+    }
+
+    public Boolean isInsideFourthRange()
+    {
+        if (Vector3.Distance(two.transform.position, _targetPoint) > _actionsphere)
+        {
+            return false;
+        }
+
+        if (Vector3.Distance(four.transform.position, _targetPoint) < _minDist)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public float GetFifthDistance()
