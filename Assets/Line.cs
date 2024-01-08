@@ -34,6 +34,7 @@ public class Line : MonoBehaviour
             if (Vector3.Distance(current, end) < 0.2)
             {
                 _finished = true;
+                robotArm.SetPenUp();
                 return;
             }
             if (robotArm.IsNextTargetFree())
@@ -54,6 +55,7 @@ public class Line : MonoBehaviour
         start = new Vector3(float.Parse(x1.text), float.Parse(y1.text), float.Parse(z1.text));
         current = start;
         robotArm.SetNextTarget(new Vector3(float.Parse(x1.text), float.Parse(y1.text), float.Parse(z1.text)));
+        robotArm.SetPenDown();
         _finished = false;
     }
 

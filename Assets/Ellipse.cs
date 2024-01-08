@@ -41,6 +41,7 @@ public class Ellipse : MonoBehaviour
             if (current > 2*Mathf.PI)
             {
                 _finished = true;
+                robotArm.SetPenUp();
                 return;
             }
             if (robotArm.IsNextTargetFree())
@@ -64,6 +65,7 @@ public class Ellipse : MonoBehaviour
         
         robotArm.SetNextTarget(center+Mathf.Cos(current) * VectA() + Mathf.Sin(current) * VectB());
         _finished = false;
+        robotArm.SetPenDown();
     }
 
     private Vector3 VectA()

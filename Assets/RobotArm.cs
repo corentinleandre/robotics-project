@@ -13,6 +13,10 @@ public class RobotArm : MonoBehaviour
     
     [SerializeField] private RobotDriverTrans five;
 
+    [SerializeField] private GameObject traceGroup;
+
+    public GameObject penTipPrefab;
+
     private Vector3 _targetPoint;
     private Boolean _attained = true;
     private Vector3 _nextTarget;
@@ -24,6 +28,8 @@ public class RobotArm : MonoBehaviour
     private float _oneToTwo;
     private float _twoToThree;
     private float _threeToFour;
+
+    private Boolean _isPenDown;
     
     
     // Start is called before the first frame update
@@ -38,6 +44,8 @@ public class RobotArm : MonoBehaviour
         Debug.Log(_actionsphere);
         Debug.Log(_minDist);
         Debug.Log(_maxdist);
+
+        _isPenDown = false;
     }
 
     // Update is called once per frame
@@ -63,6 +71,11 @@ public class RobotArm : MonoBehaviour
             if (Vector3.Distance(_targetPoint, GetTip()) < 0.01)
             {
                 _attained = true;
+                if (_isPenDown)
+                {
+                    GameObject point = Instantiate(penTipPrefab, GetTip(), Quaternion.identity);
+                    point.transform.SetParent(traceGroup.transform);
+                }
                 SetNextTarget(_nextTarget);
             }
         }
@@ -274,5 +287,15 @@ public class RobotArm : MonoBehaviour
     public Vector3 GetNextTarget()
     {
         return _nextTarget;
+    }
+
+    public void SetPenDown(Boolean penDown = true)
+    {
+        _isPenDown = penDown;
+    }
+    
+    public void SetPenUp(Boolean penUp = true)
+    {
+        _isPenDown = !penUp;
     }
 }
