@@ -114,7 +114,7 @@ public class RobotArm : MonoBehaviour
 
     public void SetNextTarget(Vector3 newTarget)
     {
-        Debug.Log("SetNextTarget Called");
+        //Debug.Log("SetNextTarget Called");
         if (_nextTarget == _targetPoint && _targetPoint == newTarget)
         {
             return;
