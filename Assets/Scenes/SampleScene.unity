@@ -473,6 +473,7 @@ GameObject:
   - component: {fileID: 136995033}
   - component: {fileID: 136995032}
   - component: {fileID: 136995031}
+  - component: {fileID: 136995034}
   m_Layer: 5
   m_Name: Ellipse
   m_TagString: Untagged
@@ -543,7 +544,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 136995032}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 136995034}
+        m_TargetAssemblyTypeName: Ellipse, Assembly-CSharp
+        m_MethodName: OnButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &136995032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -582,6 +595,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 136995029}
   m_CullTransparentMesh: 1
+--- !u!114 &136995034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136995029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b54f7c273d28a7641b7869da470d3321, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  robotArm: {fileID: 1248789517}
+  x1: {fileID: 761480091}
+  y1: {fileID: 622305161}
+  z1: {fileID: 1562682541}
+  x2: {fileID: 115810771}
+  y2: {fileID: 1716351193}
+  z2: {fileID: 1663446440}
+  x3: {fileID: 405777338}
+  y3: {fileID: 2068710990}
+  z3: {fileID: 1232349729}
 --- !u!1 &191231783
 GameObject:
   m_ObjectHideFlags: 0
@@ -9053,6 +9088,8 @@ MonoBehaviour:
   three: {fileID: 781153515}
   four: {fileID: 885843524}
   five: {fileID: 1518849155}
+  traceGroup: {fileID: 1777630626}
+  penTipPrefab: {fileID: 7905594645556727480, guid: a0ec553bd3f66654c8cc63c7803dea25, type: 3}
 --- !u!1 &1291016925
 GameObject:
   m_ObjectHideFlags: 0
@@ -11634,6 +11671,37 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1777630626
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1777630627}
+  m_Layer: 0
+  m_Name: TraceGroup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1777630627
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777630626}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1835874782
 GameObject:
   m_ObjectHideFlags: 0
@@ -13211,3 +13279,4 @@ SceneRoots:
   - {fileID: 1911297726}
   - {fileID: 1893804342}
   - {fileID: 941783443}
+  - {fileID: 1777630627}
