@@ -63,23 +63,41 @@ public class RobotArm : MonoBehaviour
             if (Vector3.Distance(_targetPoint, GetTip()) < 0.01)
             {
                 _attained = true;
+                SetNextTarget(_nextTarget);
             }
         }
+         
     }
 
     public void SetNextTarget(Vector3 newTarget)
     {
-        if (_attained)
+        Debug.Log("SetNextTarget Called");
+        if (_nextTarget == _targetPoint && _targetPoint == newTarget)
+        {
+            return;
+        }
+        if (_attained && _nextTarget == _targetPoint)
         {
             _targetPoint = newTarget;
+            _nextTarget = newTarget;
             //Debug.Log(_targetPoint);
+            _attained = false;
+        }
+        else if(_attained && _nextTarget != _targetPoint)
+        {
+            _targetPoint = _nextTarget;
+            _attained = false;
+            _nextTarget = newTarget;
         }
         else
         {
             _nextTarget = newTarget;
         }
+    }
 
-        IsArmAligned();
+    public Boolean IsNextTargetFree()
+    {
+        return _targetPoint == _nextTarget;
     }
 
     public Boolean IsPrismAligned()
@@ -123,19 +141,14 @@ public class RobotArm : MonoBehaviour
         Vector3 diff = _targetPoint - three.transform.position;
         //On le met dans le repère local
         Vector3 diffInLocal = three.transform.InverseTransformDirection(diff);
-        Debug.Log(diffInLocal);
         //On part du principe que Z = 0, que qui sera vrai quand la première rotoide aura fini sa trajectoire
         Vector3 diffInLocalProjected = new Vector3(diffInLocal.x, diffInLocal.y, 0f);
-        Debug.Log(diffInLocalProjected);
         //on normalise pour aller chercher l'angle
         Vector3 normalizedDiffInLocalProjected = diffInLocalProjected.normalized;
-        Debug.Log(normalizedDiffInLocalProjected);
         
         //on trouve l'angle
         float alpha1 = Mathf.Acos(normalizedDiffInLocalProjected.x) * Mathf.Rad2Deg;
         float alpha2 = Mathf.Asin(normalizedDiffInLocalProjected.y) * Mathf.Rad2Deg;
-        Debug.Log(alpha1);
-        Debug.Log(alpha2);
 
         float target;
         //on regarde si on s'appuie sur le cos ou le sin en fonction de la situation
@@ -143,15 +156,12 @@ public class RobotArm : MonoBehaviour
         if (normalizedDiffInLocalProjected.y > 0)
         {
             target = alpha1 + three.GetAngle();
-            Debug.Log("target : " + target);
         }else if(normalizedDiffInLocalProjected.x > 0)
         {   
             target = alpha2 + three.GetAngle();
-            Debug.Log("target : " + target);
         }else
         {
             target = three.GetAngle() - alpha1;
-            Debug.Log("target : " + target);
         }
 
         return target;
@@ -182,19 +192,14 @@ public class RobotArm : MonoBehaviour
         Vector3 diff = _targetPoint - four.transform.position;
         //On le met dans le repère local
         Vector3 diffInLocal = four.transform.InverseTransformDirection(diff);
-        Debug.Log(diffInLocal);
         //On part du principe que Z = 0, que qui sera vrai quand la première rotoide aura fini sa trajectoire
         Vector3 diffInLocalProjected = new Vector3(diffInLocal.x, diffInLocal.y, 0f);
-        Debug.Log(diffInLocalProjected);
         //on normalise pour aller chercher l'angle
         Vector3 normalizedDiffInLocalProjected = diffInLocalProjected.normalized;
-        Debug.Log(normalizedDiffInLocalProjected);
         
         //on trouve l'angle
         float alpha1 = Mathf.Acos(normalizedDiffInLocalProjected.x) * Mathf.Rad2Deg;
         float alpha2 = Mathf.Asin(normalizedDiffInLocalProjected.y) * Mathf.Rad2Deg;
-        Debug.Log(alpha1);
-        Debug.Log(alpha2);
 
         float target;
         //on regarde si on s'appuie sur le cos ou le sin en fonction de la situation
@@ -202,15 +207,12 @@ public class RobotArm : MonoBehaviour
         if (normalizedDiffInLocalProjected.y > 0)
         {
             target = alpha1 + four.GetAngle();
-            Debug.Log("target : " + target);
         }else if(normalizedDiffInLocalProjected.x > 0)
         {   
             target = alpha2 + four.GetAngle();
-            Debug.Log("target : " + target);
         }else
         {
             target = four.GetAngle() - alpha1;
-            Debug.Log("target : " + target);
         }
 
         return target;
