@@ -13,7 +13,8 @@ public class RobotPart : MonoBehaviour
 	//Methods
 	public void Rotate(float angle)
 	{
-		Vector3 zAxis = transform.TransformDirection(new Vector3(0, 0, 1));
+		//-1 pour sens trigo ?
+		Vector3 zAxis = transform.TransformDirection(new Vector3(0, 0, -1));
 		Vector3 point = transform.localPosition;
 		transform.RotateAround(point, zAxis, angle);
 

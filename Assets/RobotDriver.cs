@@ -25,14 +25,14 @@ public class RobotDriver : MonoBehaviour
         if (_target > _angle)
         {
             float currentRotation = Mathf.Min(angleSpeed, _target - _angle);
-            _drivedRobotPart.Rotate(currentRotation);
+            _drivedRobotPart.Rotate(-currentRotation);
             _angle += currentRotation;
         }
 
         if (_target < _angle)
         {
             float currentRotation = Mathf.Max(-angleSpeed, _target-_angle);
-            _drivedRobotPart.Rotate(currentRotation);
+            _drivedRobotPart.Rotate(-currentRotation);
             _angle += currentRotation;
         } 
 
@@ -41,6 +41,11 @@ public class RobotDriver : MonoBehaviour
     public void SetTarget(float newTarget)
     {
         _target = newTarget;
+    }
+
+    public float GetAngle()
+    {
+        return _angle;
     }
 
     public RobotPart GetDrivedRobotPart()
